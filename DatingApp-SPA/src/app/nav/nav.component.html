@@ -1,16 +1,15 @@
    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
-    <a class="navbar-brand" href="#">Dating App</a>
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Matches <span class="sr-only">(current)</span></a>
+    <a class="navbar-brand" [routerLink]="['/home']">Dating App</a>
+      <ul class="navbar-nav mr-auto" *ngIf="loggedId()">
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="['/members']">Member List</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Lists</a>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="['/lists']">Lists</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Messages</a>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="['/messages']">Messages</a>
         </li>
       </ul>
   
@@ -32,6 +31,5 @@
         <button [disabled]="!loginForm.valid" class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
       </form>
     </div>
-   </div>
   </nav>
 

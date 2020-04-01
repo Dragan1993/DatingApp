@@ -17,10 +17,10 @@ namespace DatingApp.API.Controllers
         private IDatingRepository repo;
         private IMapper mapper;
 
-        public UsersController(IDatingRepository repo)
+        public UsersController(IDatingRepository repo, IMapper mapper)
         {
             this.repo = repo;
-            this.mapper=mapper;
+            this.mapper = mapper;
         }
 
         [HttpGet("{id}")]

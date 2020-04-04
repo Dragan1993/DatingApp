@@ -28,12 +28,12 @@ export class MemberDetailComponent implements OnInit {
         preview: false
       }
     ];
-    this.galleryImages = this.getImages();
   }
 
   loadUser() {
      this.userService.getUser(+this.route.snapshot.params['id']).subscribe(user => {
       this.user = user;
+      this.galleryImages = this.getImages();
     }, error => {
       this.alertify.error(error);
     });

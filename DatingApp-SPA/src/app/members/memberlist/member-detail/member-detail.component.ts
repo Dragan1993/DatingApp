@@ -17,8 +17,10 @@ export class MemberDetailComponent implements OnInit {
   galleryImages: NgxGalleryImage[];
   constructor(private userService: UserService, private alertify: AlertifyService, private route: ActivatedRoute) { }
   ngOnInit() {
-    this.loadUser();
-    this.galleryOptions = [
+      this.route.data.subscribe(data=> {
+        this.user = data['user'];
+      });
+      this.galleryOptions = [
       {
         width: '500px',
         height: '500px',
@@ -28,15 +30,7 @@ export class MemberDetailComponent implements OnInit {
         preview: false
       }
     ];
-  }
-
-  loadUser() {
-     this.userService.getUser(+this.route.snapshot.params['id']).subscribe(user => {
-      this.user = user;
       this.galleryImages = this.getImages();
-    }, error => {
-      this.alertify.error(error);
-    });
   }
 
   getImages() {

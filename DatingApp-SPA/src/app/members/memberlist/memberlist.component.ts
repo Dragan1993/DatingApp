@@ -15,11 +15,13 @@ export class MemberlistComponent implements OnInit {
   users: User[];
 
   ngOnInit() {
-    this.loadUser();
-  } 
+    this.route.data.subscribe(data => {
+      this.users = data['users'];
+      });
+  }
   loadUser() {
     this.userService.getUsers().subscribe(users => {
       this.users = users;
-    })
+    });
   }
 }

@@ -28,6 +28,8 @@ import { MemberListResolver } from './resolvers/member-list.resolver';
 import { MemberDetailResolver } from './resolvers/member-detail.resolver';
 import {MemberEditResolver } from './resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
+import { PhotoEditorComponent } from './members/memberlist/photo-editor/photo-editor.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -44,12 +46,14 @@ export function tokenGetter() {
       MessagesComponent,
       MemberCardComponent,
       MemberDetailComponent,
-      MemberEditComponent
+      MemberEditComponent,
+      PhotoEditorComponent
    ],
    imports: [
       BrowserModule,
       HttpClientModule,
       FormsModule,
+      FileUploadModule,
       BsDropdownModule.forRoot(),
       RouterModule.forRoot(appRoutes),
       JwtModule.forRoot({

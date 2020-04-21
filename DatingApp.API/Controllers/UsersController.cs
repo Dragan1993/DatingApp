@@ -38,6 +38,12 @@ namespace DatingApp.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams)
         {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userFromRepo = await repo.GetUser(userId);
+            userParams.UserId = userId;
+            if(string.IsNullOrEmpty(userParams.Gender)){
+                userParams.Gender = userFromRepo.Gender == "male" ? "female" : "male";
+            }
             var users = await repo.GetUsers(userParams);
             var usersToReturn = mapper.Map<IEnumerable<UserForListDto>>(users);
             Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
@@ -56,6 +62,32 @@ namespace DatingApp.API.Controllers
                 return NoContent(); 
 
                 throw new Exception($"Updating user {id} failed on save");
+        }
+
+        [HttpPost("{id}/like/{recipientId}")]
+        public async Task<IActionResult> LikeUser(int id, int recipientId)
+        {
+            if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+            var like = await repo.GetLike(id, recipientId);
+
+            if(like != null)
+                return BadRequest("You already liked this user!");
+            
+            if(await repo.GetUser(recipientId) == null)
+                return NotFound();
+
+            like = new Like
+            {
+                LikerId = id,
+                LikeeId = recipientId
+            };
+            repo.Add<Like>(like);
+
+            if(await repo.SaveAll())
+                return Ok();
+
+            return BadRequest("Failed to like user");
         }
     }
 }
